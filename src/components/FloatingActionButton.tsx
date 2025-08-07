@@ -8,7 +8,10 @@ interface FABProps {
 
 const FloatingActionButton: React.FC<FABProps> = ({ stocks, onAction }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [position, setPosition] = useState({ x: 20, y: 80 }); // Initial position
+  const [position, setPosition] = useState({
+    x: 20,
+    y: window.innerHeight - 150,
+  }); // Initial position
   const fabRef = useRef<HTMLDivElement>(null);
 
   const isDragging = useRef(false);

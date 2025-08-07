@@ -47,7 +47,7 @@ const HomePage = () => {
       </nav>
 
       {/* Page Content */}
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-4 relative">
         <Routes>
           <Route path="holdings" element={<Holdings />} />
           <Route path="orderbook" element={<Orderbook />} />

@@ -13,13 +13,13 @@ const LoginForm: React.FC<Props> = ({ broker, onLogin }) => {
     <div className="mt-4">
       <h3 className="text-md mb-2">Login to {broker}</h3>
       <input
-        className="border w-full px-3 py-2 mb-2 rounded"
+        className="border w-full px-3 py-2 mb-2 rounded text-black"
         placeholder="Username"
         value={username}
         onChange={e => setUsername(e.target.value)}
       />
       <input
-        className="border w-full px-3 py-2 mb-4 rounded"
+        className="border w-full px-3 py-2 mb-4 rounded text-black"
         placeholder="Password"
         type="password"
         value={password}

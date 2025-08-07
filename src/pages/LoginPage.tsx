@@ -5,15 +5,13 @@ import { mockLogin } from "../api/mockAuth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Logo from "../assets/login-logo.svg";
-import ZerodhaIcon from "../assets/Zerodha_logo.svg";
 import GrowwIcon from "../assets/groww.png";
-import AngelOneIcon from "../assets/AngelOne.svg";
 
 const brokers = [
-  { title: "Zerodha", logo: ZerodhaIcon },
+  { title: "Zerodha" },
   { title: "Groww", logo: GrowwIcon },
   { title: "Upstox" },
-  { title: "AngelOne", logo: AngelOneIcon },
+  { title: "AngelOne" },
 ];
 
 const LoginPage = () => {
@@ -24,7 +22,7 @@ const LoginPage = () => {
 
   const handleLogin = async (username: string, password: string) => {
     setError("");
-    const response = await mockLogin(selectedBroker!, username, password);
+    const response = await mockLogin(username, password);
 
     if (response.status === 200 && response.token) {
       login(response.token);

@@ -1,5 +1,4 @@
 export const mockLogin = async (
-  broker: string,
   username: string,
   password: string
 ): Promise<{ status: number; token?: string }> => {
