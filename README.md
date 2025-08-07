@@ -27,3 +27,10 @@ A stock broker platform interface with:
 npm install
 npm start
 ```
+
+## 🚀 Credentials
+
+```bash
+username: user
+password: pass
+```
