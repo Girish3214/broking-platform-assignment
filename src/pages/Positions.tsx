@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { mockPositions, type Position } from "../data/positions";
+import { convertToCurrency } from "../utils";
 
 const Positions = () => {
   const [positions, setPositions] = useState<Position[]>([]);
@@ -18,46 +19,47 @@ const Positions = () => {
   const totalPNL = positions.reduce((acc, p) => acc + getPNL(p), 0);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white dark:bg-gray-800 dark:text-white p-4 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg">
       <h2 className="text-xl font-semibold">📍 Active Positions</h2>
 
       {/* PNL Card */}
-      <div className="bg-white shadow p-4 rounded border border-gray-200">
+      <div className="bg-white dark:bg-gray-100/10 shadow p-4 rounded border border-gray-200">
         <h3 className="text-lg font-semibold mb-2">Total PNL</h3>
         <div className="flex justify-between text-sm">
           <span>Unrealized PNL:</span>
           <span className={totalPNL >= 0 ? "text-green-600" : "text-red-600"}>
-            ₹{totalPNL.toFixed(2)}
+            {convertToCurrency(totalPNL)}
           </span>
         </div>
       </div>
 
       {/* Position List */}
-      <div className="space-y-3">
+      <div className="space-y-3 ">
         {positions.map(pos => {
           const pnl = getPNL(pos);
           return (
             <div
               key={pos.symbol}
-              className="bg-white shadow p-4 rounded border hover:bg-gray-50"
+              className="bg-white dark:bg-gray-100/10 shadow p-4 rounded border  hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <div className="flex justify-between items-center">
                 <div>
                   <p className="font-semibold">{pos.symbol}</p>
-                  <p className="text-xs text-gray-500">
-                    {pos.quantity} shares @ ₹{pos.avgPrice}
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {pos.quantity} shares @ {convertToCurrency(pos.avgPrice)}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-gray-600">
-                    ₹{pos.currentPrice.toFixed(2)}
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {convertToCurrency(pos.currentPrice)}
                   </p>
                   <p
-                    className={`text-sm font-semibold ${
-                      pnl >= 0 ? "text-green-600" : "text-red-600"
+                    className={`text-sm font-semibold flex items-center gap-1 ${
+                      pnl >= 0 ? "text-green-500" : "text-red-500"
                     }`}
                   >
-                    {pnl >= 0 ? "+" : "-"}₹{Math.abs(pnl).toFixed(2)}
+                    <span>{pnl >= 0 ? "📈" : "📉"}</span>
+                    {convertToCurrency(Math.abs(pnl))}
                   </p>
                 </div>
               </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { mockHoldings, type Holding } from "../data/holdings";
 import OrderPad from "../components/OrderPad";
 import FloatingActionButton from "../components/FloatingActionButton";
+import { convertToCurrency } from "../utils";
 
 const Holdings = () => {
   const [data, setData] = useState<Holding[]>([]);
@@ -40,7 +41,7 @@ const Holdings = () => {
         />
       )}
 
-      <div>
+      <div className="bg-white dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg">
         <h2 className="text-xl font-semibold mb-4">📊 Your Holdings</h2>
 
         {data.length === 0 ? (
@@ -56,7 +57,7 @@ const Holdings = () => {
               return (
                 <div
                   key={stock.symbol}
-                  className="border p-4 rounded shadow-sm bg-white hover:bg-gray-50 cursor-pointer"
+                  className="border p-4 bg-white dark:bg-gray-100/10 cursor-pointer border-gray-200 dark:border-gray-700 shadow-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 "
                   onClick={() => {
                     console.log(stock);
                     setSelectedStock(stock);
@@ -66,20 +67,22 @@ const Holdings = () => {
                   <div className="flex justify-between items-center">
                     <div>
                       <h3 className="text-lg font-bold">{stock.symbol}</h3>
-                      <p className="text-sm text-gray-500">
-                        Qty: {stock.quantity} @ ₹{stock.avgPrice}
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Qty: {stock.quantity} @{" "}
+                        {convertToCurrency(stock.avgPrice)}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-md font-semibold">
-                        ₹{marketValue.toFixed(2)}
+                        {convertToCurrency(marketValue)}
                       </p>
                       <p
-                        className={`text-sm ${
-                          isProfit ? "text-green-600" : "text-red-600"
+                        className={`text-sm font-medium flex items-center gap-1 ${
+                          isProfit ? "text-green-500" : "text-red-500"
                         }`}
                       >
-                        {isProfit ? "+" : "-"}₹{Math.abs(profitLoss).toFixed(2)}
+                        <span> {isProfit ? "📈" : "📉"}</span>
+                        {convertToCurrency(Math.abs(profitLoss))}
                       </p>
                     </div>
                   </div>

@@ -59,10 +59,10 @@ const FloatingActionButton: React.FC<FABProps> = ({ stocks, onAction }) => {
       style={{
         position: "fixed",
         left: position.x,
-        bottom: position.y,
+        top: position.y,
         zIndex: 9999,
       }}
-      className="cursor-grab"
+      className="cursor-grab rounded-full text-white shadow-md transition-shadow shadow-blue-400 bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-400"
     >
       <div className="relative">
         {/* Expanded Buttons (positioned absolutely above the FAB) */}
@@ -70,13 +70,13 @@ const FloatingActionButton: React.FC<FABProps> = ({ stocks, onAction }) => {
           <div className="absolute -top-28 right-0 flex flex-col items-end space-y-2">
             <button
               onClick={() => handleClick("buy")}
-              className="bg-green-600 text-white px-4 py-2 rounded shadow"
+              className="bg-green-600 dark:bg-green-500 text-white px-4 py-2 rounded shadow"
             >
               Buy
             </button>
             <button
               onClick={() => handleClick("sell")}
-              className="bg-red-600 text-white px-4 py-2 rounded shadow"
+              className="bg-red-600 dark:bg-red-500 text-white px-4 py-2 rounded shadow"
             >
               Sell
             </button>

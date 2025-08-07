@@ -38,7 +38,7 @@ const LoginPage = () => {
             <LoginForm broker={selectedBroker} onLogin={handleLogin} />
             {error && <div className="text-red-600 mt-4">{error}</div>}
             <button
-              className="text-sm text-blue-500 mt-4 underline"
+              className="text-sm text-blue-500 mt-4 underline transition duration-200 ease-in-out"
               onClick={() => setSelectedBroker(null)}
             >
               ← Choose another broker
