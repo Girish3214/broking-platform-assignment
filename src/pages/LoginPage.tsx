@@ -4,8 +4,17 @@ import LoginForm from "../components/LoginForm";
 import { mockLogin } from "../api/mockAuth";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Logo from "../assets/login-logo.svg";
+import ZerodhaIcon from "../assets/Zerodha_logo.svg";
+import GrowwIcon from "../assets/groww.png";
+import AngelOneIcon from "../assets/AngelOne.svg";
 
-const brokers = ["Zerodha", "Groww", "Upstox", "AngelOne"];
+const brokers = [
+  { title: "Zerodha", logo: ZerodhaIcon },
+  { title: "Groww", logo: GrowwIcon },
+  { title: "Upstox" },
+  { title: "AngelOne", logo: AngelOneIcon },
+];
 
 const LoginPage = () => {
   const [selectedBroker, setSelectedBroker] = useState<string | null>(null);
@@ -18,7 +27,7 @@ const LoginPage = () => {
     const response = await mockLogin(selectedBroker!, username, password);
 
     if (response.status === 200 && response.token) {
-      login(response.token); // sets auth context and triggers rerender
+      login(response.token);
       navigate("/app");
     } else if (response.status === 400) {
       setError("❌ Invalid credentials. Try again.");
@@ -28,23 +37,37 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="max-w-md w-full bg-white p-6 rounded shadow">
-        <h1 className="text-xl font-bold mb-4">Broker Platform Login</h1>
-        {!selectedBroker ? (
-          <BrokerSelector brokers={brokers} onSelect={setSelectedBroker} />
-        ) : (
-          <>
-            <LoginForm broker={selectedBroker} onLogin={handleLogin} />
-            {error && <div className="text-red-600 mt-4">{error}</div>}
-            <button
-              className="text-sm text-blue-500 mt-4 underline transition duration-200 ease-in-out"
-              onClick={() => setSelectedBroker(null)}
-            >
-              ← Choose another broker
-            </button>
-          </>
-        )}
+    <div className="min-h-screen flex items-center justify-center bg-[#0e1320] text-white px-6">
+      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-6xl gap-12">
+        {/* Left Logo Illustration */}
+        <div className="w-full md:w-1/2 flex justify-center items-center">
+          <img
+            src={Logo}
+            alt="Broker Login Illustration"
+            className="w-4/5 md:w-full max-w-md drop-shadow-xl"
+          />
+        </div>
+
+        {/* Right Form */}
+        <div className="w-full md:w-1/2 bg-[#1a1f2b] p-8 rounded-lg shadow-lg border border-gray-700 transition-all">
+          <h1 className="text-2xl md:text-3xl font-extrabold mb-4 flex items-center gap-3">
+            Broker Login
+          </h1>
+          {!selectedBroker ? (
+            <BrokerSelector brokers={brokers} onSelect={setSelectedBroker} />
+          ) : (
+            <>
+              <LoginForm broker={selectedBroker} onLogin={handleLogin} />
+              {error && <div className="text-red-400 mt-4">{error}</div>}
+              <button
+                className="text-sm text-blue-400 mt-4 underline transition duration-200 hover:text-blue-300"
+                onClick={() => setSelectedBroker(null)}
+              >
+                ← Choose another broker
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
