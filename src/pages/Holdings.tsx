@@ -3,21 +3,25 @@ import { mockHoldings, type Holding } from "../data/holdings";
 import OrderPad from "../components/OrderPad";
 import FloatingActionButton from "../components/FloatingActionButton";
 import { convertToCurrency } from "../utils";
+import type { Stock } from "../context/TradeContext";
 
 const Holdings = () => {
   const [data, setData] = useState<Holding[]>([]);
-
-  const [selectedStock, setSelectedStock] = useState<Holding | null>(null);
+  const [selectedStock, setSelectedStock] = useState<Stock | null>(null);
   const [actionType, setActionType] = useState<"buy" | "sell" | null>(null);
 
   useEffect(() => {
-    // simulate API call
     const fetchData = async () => {
       await new Promise(r => setTimeout(r, 500)); // simulate delay
       setData(mockHoldings);
     };
     fetchData();
   }, []);
+
+  const openOrderPad = (stock: Holding, action: "buy" | "sell") => {
+    setSelectedStock(stock);
+    setActionType(action);
+  };
 
   return (
     <>
@@ -31,13 +35,11 @@ const Holdings = () => {
           }}
         />
       )}
+
       {data.length > 0 && (
         <FloatingActionButton
           stocks={data}
-          onAction={(type, stock) => {
-            setSelectedStock(stock);
-            setActionType(type);
-          }}
+          onAction={(type, stock) => openOrderPad(stock, type)}
         />
       )}
 
@@ -57,12 +59,7 @@ const Holdings = () => {
               return (
                 <div
                   key={stock.symbol}
-                  className="border p-4 bg-white dark:bg-gray-100/10 cursor-pointer border-gray-200 dark:border-gray-700 shadow-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 "
-                  onClick={() => {
-                    console.log(stock);
-                    setSelectedStock(stock);
-                    setActionType("sell"); // default action, we'll change this later for FAB
-                  }}
+                  className="border p-4 bg-white dark:bg-gray-100/10 border-gray-200 dark:border-gray-700 shadow-sm rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <div className="flex justify-between items-center">
                     <div>
@@ -72,6 +69,7 @@ const Holdings = () => {
                         {convertToCurrency(stock.avgPrice)}
                       </p>
                     </div>
+
                     <div className="text-right">
                       <p className="text-md font-semibold">
                         {convertToCurrency(marketValue)}
@@ -81,10 +79,26 @@ const Holdings = () => {
                           isProfit ? "text-green-500" : "text-red-500"
                         }`}
                       >
-                        <span> {isProfit ? "📈" : "📉"}</span>
+                        {isProfit ? "📈" : "📉"}{" "}
                         {convertToCurrency(Math.abs(profitLoss))}
                       </p>
                     </div>
+                  </div>
+
+                  {/* Buy/Sell Buttons */}
+                  <div className="flex justify-end space-x-2 mt-3">
+                    <button
+                      onClick={() => openOrderPad(stock, "buy")}
+                      className="px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700"
+                    >
+                      Buy
+                    </button>
+                    <button
+                      onClick={() => openOrderPad(stock, "sell")}
+                      className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700"
+                    >
+                      Sell
+                    </button>
                   </div>
                 </div>
               );

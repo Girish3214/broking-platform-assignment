@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { mockOrders, type Order } from "../data/orderbook";
 import { convertToCurrency } from "../utils";
+import { useTrades } from "../context/TradeContext";
 
 const Orderbook = () => {
+  const { trades } = useTrades();
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
@@ -41,8 +43,8 @@ const Orderbook = () => {
         </div>
       </div>
 
-      {/* Orders List */}
-      <div className="space-y-3 ">
+      {/* Mock Orders List */}
+      <div className="space-y-3">
         {orders.map(order => (
           <div
             key={order.id}
@@ -76,6 +78,43 @@ const Orderbook = () => {
             </div>
           </div>
         ))}
+
+        {/* User-placed trades */}
+        {trades.length > 0 && (
+          <>
+            <h3 className="text-md font-semibold mt-4 text-gray-600 dark:text-gray-300">
+              Your Recent Trades
+            </h3>
+            {trades.map((trade, idx) => (
+              <div
+                key={idx}
+                className="bg-white dark:bg-gray-100/10 shadow p-4 rounded border border-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-semibold">{trade.stock.symbol}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {trade.quantity} shares @{" "}
+                      {convertToCurrency(trade.stock.currentPrice)}
+                    </p>
+                  </div>
+                  <div className="text-right text-sm">
+                    <p
+                      className={`font-bold ${
+                        trade.type === "buy" ? "text-green-600" : "text-red-600"
+                      }`}
+                    >
+                      {trade.type.toUpperCase()}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      {new Date(trade.timestamp).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

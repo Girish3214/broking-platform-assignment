@@ -1,19 +1,32 @@
 import React, { useState } from "react";
-import type { Holding } from "../data/holdings";
 import showToast from "../utils/toast";
+import { useTrades, type Stock } from "../context/TradeContext";
+import { convertToCurrency } from "../utils";
 
 interface OrderPadProps {
-  stock: Holding;
+  stock: Stock;
   type: "buy" | "sell";
   onClose: () => void;
 }
 
 const OrderPad: React.FC<OrderPadProps> = ({ stock, type, onClose }) => {
+  const { addTrade } = useTrades();
+
   const [quantity, setQuantity] = useState(1);
 
   const isBuy = type === "buy";
 
   const handleSubmit = () => {
+    if (quantity < 1 || isNaN(quantity)) {
+      showToast("Please enter a valid quantity", "error");
+      return;
+    }
+    addTrade({
+      type: isBuy ? "buy" : "sell",
+      stock,
+      quantity,
+      timestamp: new Date().toISOString(),
+    });
     showToast(
       `${isBuy ? "Bought" : "Sold"} ${quantity} shares of ${stock.symbol}`,
       isBuy ? "success" : "error"
@@ -43,7 +56,7 @@ const OrderPad: React.FC<OrderPadProps> = ({ stock, type, onClose }) => {
 
         <div className="mb-4">
           <p className="text-sm text-gray-600 dark:text-gray-300">
-            Current Price: ₹{stock.currentPrice}
+            Current Price: {convertToCurrency(stock.currentPrice)}
           </p>
         </div>
 
@@ -53,6 +66,7 @@ const OrderPad: React.FC<OrderPadProps> = ({ stock, type, onClose }) => {
             type="number"
             min={1}
             value={quantity}
+            autoFocus
             onChange={e => setQuantity(Number(e.target.value))}
             className="border dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 w-full rounded mt-1"
           />

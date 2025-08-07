@@ -1,5 +1,5 @@
 export interface Order {
-  id: number;
+  id: number | string;
   symbol: string;
   quantity: number;
   price: number;
@@ -11,33 +11,43 @@ export interface Order {
 
 export const mockOrders: Order[] = [
   {
-    id: 1,
+    id: "ORD1000",
     symbol: "TCS",
-    quantity: 10,
-    price: 3200,
+    quantity: 9,
+    price: 2819.08,
     type: "buy",
     status: "executed",
-    realizedPnL: 250,
-    unrealizedPnL: 150,
+    realizedPnL: 126.82,
+    unrealizedPnL: 2450.46,
   },
   {
-    id: 2,
-    symbol: "HDFCBANK",
-    quantity: 5,
-    price: 1700,
-    type: "sell",
-    status: "executed",
-    realizedPnL: -100,
-    unrealizedPnL: 0,
-  },
-  {
-    id: 3,
+    id: "ORD1001",
     symbol: "INFY",
-    quantity: 15,
-    price: 1350,
+    quantity: 22,
+    price: 1480.1,
+    type: "sell",
+    status: "cancelled",
+    realizedPnL: -2591.57,
+    unrealizedPnL: 293.17,
+  },
+  {
+    id: "ORD1002",
+    symbol: "RELIANCE",
+    quantity: 46,
+    price: 1063.61,
     type: "buy",
     status: "cancelled",
-    realizedPnL: 0,
-    unrealizedPnL: 0,
+    realizedPnL: 3330.13,
+    unrealizedPnL: 2440.25,
+  },
+  {
+    id: "ORD1003",
+    symbol: "HDFCBANK",
+    quantity: 9,
+    price: 2238.26,
+    type: "buy",
+    status: "executed",
+    realizedPnL: 4106.67,
+    unrealizedPnL: -501.94,
   },
 ];

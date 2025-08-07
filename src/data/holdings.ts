@@ -6,7 +6,7 @@ export interface Holding {
 }
 
 export const mockHoldings: Holding[] = [
-  { symbol: "TCS", quantity: 10, avgPrice: 3250, currentPrice: 3425 },
-  { symbol: "INFY", quantity: 15, avgPrice: 1400, currentPrice: 1350 },
-  { symbol: "HDFCBANK", quantity: 8, avgPrice: 1600, currentPrice: 1720 },
+  { symbol: "TCS", quantity: 41, avgPrice: 583.61, currentPrice: 2055.5 },
+  { symbol: "INFY", quantity: 67, avgPrice: 2852.1, currentPrice: 2209.48 },
+  { symbol: "RELIANCE", quantity: 97, avgPrice: 1014.88, currentPrice: 635.84 },
 ];

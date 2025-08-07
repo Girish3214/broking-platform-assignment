@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { DarkModeProvider } from "./context/DarkModeContext.tsx";
+import { TradeProvider } from "./context/TradeContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <DarkModeProvider>
       <AuthProvider>
-        <App />
+        <TradeProvider>
+          <App />
+        </TradeProvider>
       </AuthProvider>
     </DarkModeProvider>
   </StrictMode>
